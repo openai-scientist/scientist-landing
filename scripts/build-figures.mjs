@@ -581,9 +581,245 @@ function figure2() {
   return { svg };
 }
 
+/* ---------------------------------------------------------------- Fig 3 */
+
+/* Fig 3, the report: one page of the closing report, standing like a printed PDF page, with two more leaves
+   behind it. Every part of the page is written by something a person did; until then the part is a dashed box
+   that says what it needs. Leaders run from the parts to six callouts, three on each side.
+   Page content is drawn flat in page units (420 by 594) and mapped onto the page's front face. */
+
+const W3 = 880;
+const H3 = 760;
+const LABEL3 = 166;
+const PAGE = { w: 420, h: 594, t: 5 };
+const page3Corners = [
+  ...k.boxCorners({ x: 0, y: 0, w: PAGE.w, d: PAGE.t }, 0, PAGE.h),
+  ...k.boxCorners({ x: 16, y: -26, w: PAGE.w, d: PAGE.t }, 0, PAGE.h),
+];
+const P3 = (() => {
+  const fit = k.fitProjection(page3Corners, W3 - LABEL3 * 2, H3, { pad: 16, azimuth: 82, elevation: 9 });
+  return { ...fit, origin: [fit.origin[0] + LABEL3, fit.origin[1]] };
+})();
+// A point on the front face, in page units: u to the right, v down from the top edge.
+const onPage = (u, v) => k.iso([u, PAGE.t, PAGE.h - v], P3);
+
+const esc = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const T = (x, y, text, cls, extra = "") => `<text class="pp ${cls}" x="${x}" y="${y}"${extra}>${esc(text)}</text>`;
+const R = (x0, y0, x1, y1, cls = "pp-rule") => `<path class="${cls} draw" d="M${x0} ${y0}L${x1} ${y1}"/>`;
+const lines = (x, y, rows, cls = "pp-body", lead = 10.6) => rows.map((row, i) => T(x, y + i * lead, row, cls)).join("");
+const need = (x, y, w, h, text) =>
+  `<g data-ghost=""><rect class="pp-need" x="${x}" y="${y}" width="${w}" height="${h}" rx="3"/>${T(x + w / 2, y + h / 2 + 2.4, text.toUpperCase(), "pp-need-text", ' text-anchor="middle"')}</g>`;
+const regions3 = [];
+const region = (act, box, body) => {
+  regions3.push({ act, box });
+  return `<g data-at="${act}">${need(...box)}<g data-ink="">${body}</g></g>`;
+};
+
+function powerCurve(x0, y0, w, h) {
+  const phi = (z) => 0.5 * (1 + Math.tanh(0.7978845608 * (z + 0.044715 * z ** 3)));
+  const pts = [];
+  for (let n = 4; n <= 200; n += 4) pts.push([x0 + (n / 200) * w, y0 + h - phi(0.4 * Math.sqrt(n / 2) - 1.96) * h]);
+  const mark = [x0 + 0.5 * w, y0 + h - phi(0.4 * Math.sqrt(50) - 1.96) * h];
+  return [
+    `<path class="pp-axis draw" d="M${x0} ${y0}V${y0 + h}H${x0 + w}"/>`,
+    `<path class="pp-curve draw" d="M${pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join("L")}"/>`,
+    `<path class="pp-guide" d="M${x0} ${mark[1].toFixed(1)}H${mark[0]}V${y0 + h}"/>`,
+    `<circle class="pp-dot" cx="${mark[0]}" cy="${mark[1].toFixed(1)}" r="2.2"/>`,
+    T(x0 - 4, y0 + 3, "1.0", "pp-tick", ' text-anchor="end"'),
+    T(x0 - 4, mark[1] + 2, "0.8", "pp-tick", ' text-anchor="end"'),
+    T(mark[0], y0 + h + 9, "100", "pp-tick", ' text-anchor="middle"'),
+    T(x0 + w, y0 + h + 9, "200 per group", "pp-tick", ' text-anchor="end"'),
+  ].join("");
+}
+
+function page3() {
+  const L = 30;
+  const C2 = 218;
+  const out = [`<rect class="pp-sheet" width="${PAGE.w}" height="${PAGE.h}"/>`];
+  out.push(T(L, 26, "OPENAI SCIENTIST · EXAMPLE RUN", "pp-head"), T(352, 26, "CLOSING REPORT · CASE V1 ·", "pp-head", ' text-anchor="end"'));
+  out.push(`<g class="pp-accepted">${T(390, 26, "ACCEPTED", "pp-head pp-strong", ' text-anchor="end"')}</g>`);
+  out.push(`<path class="pp-rule-strong" d="M${L} 33H390"/>`);
+  out.push(region(2, [L - 4, 42, 368, 50, "Needs your question"], T(L, 62, "Does more sleep go with higher exam", "pp-title") + T(L, 82, "scores among our undergraduates?", "pp-title")));
+  out.push(region(0, [L - 4, 100, 368, 28, "Needs a project and its people"], T(L, 112, "Ana López (PM), Minh Nguyen, Tom Hale", "pp-authors") + T(L, 123, "Sleep and grades project · Project Manager, Researcher, Reviewer", "pp-small")));
+  const meta = [
+    ["INTENT", "Test a claim"],
+    ["MODE", "Light · 3 gates"],
+    ["PIPELINE", "dataset_first"],
+    ["REVIEW", "Second model"],
+  ];
+  out.push(
+    region(
+      3,
+      [L - 4, 134, 368, 34, "Needs a mode"],
+      R(L, 136, 390, 136) +
+        R(L, 166, 390, 166) +
+        meta.map(([k1, v], i) => T(L + i * 90 + (i ? 8 : 0), 147, k1, "pp-label") + T(L + i * 90 + (i ? 8 : 0), 160, v, "pp-meta") + (i ? R(L + i * 90, 138, L + i * 90, 164) : "")).join(""),
+    ),
+  );
+  out.push(`<path class="pp-rule" d="M210 178V462"/>`);
+  out.push(
+    region(
+      1,
+      [L - 4, 176, 180, 96, "Needs data, if you have it"],
+      T(L, 188, "1  Data", "pp-h") +
+        lines(L, 202, ["enrolment.csv, version 3: 4,212 rows and", "9 columns, profiled in code. Models read", "this data card, never a single row."]) +
+        [
+          ["sleep_hours", "float", "mean 6.8"],
+          ["exam_score", "int", "mean 71.4"],
+          ["cohort", "category", "4 levels"],
+        ]
+          .map(([c, t, m], i) => R(L, 236 + i * 11.5, 202, 236 + i * 11.5) + T(L, 244.5 + i * 11.5, c, "pp-mono") + T(L + 70, 244.5 + i * 11.5, t, "pp-small") + T(L + 118, 244.5 + i * 11.5, m, "pp-small"))
+          .join(""),
+    ),
+  );
+  out.push(
+    region(
+      4,
+      [L - 4, 280, 180, 66, "Needs your approved reading list"],
+      T(L, 292, "2  Evidence", "pp-h") +
+        lines(L, 306, ["186 papers screened in Semantic Scholar", "and OpenAlex; you approved 24. Short", "sleep goes with lower grades [1, 2];", "trading sleep for study backfires [3]."]),
+    ),
+  );
+  out.push(
+    region(
+      4,
+      [L - 4, 354, 180, 70, "Needs your pick of hypotheses"],
+      T(L, 366, "3  Hypotheses", "pp-h") +
+        T(L, 380, "H1", "pp-strong-body") +
+        T(L + 14, 380, "Seven hours or more goes with higher", "pp-body") +
+        T(L + 14, 390.6, "final exam scores.", "pp-body") +
+        T(L, 404, "H2", "pp-strong-body") +
+        T(L + 14, 404, "The link holds within each cohort.", "pp-body") +
+        `<g class="pp-dropped">${T(L, 418, "H3", "pp-strong-body")}${T(L + 14, 418, "Later bedtimes alone predict lower scores.", "pp-body")}</g>` +
+        `<path class="pp-strike" d="M${L} 415.4H198"/>`,
+    ),
+  );
+  out.push(
+    region(
+      5,
+      [C2 - 4, 176, 180, 158, "Needs the plan to pass review"],
+      T(C2, 188, "4  Experiment plan", "pp-h") +
+        lines(C2, 202, ["An observational cohort comparing short", "and adequate sleepers. 100 per group", "detect d = 0.4 at 80% power, α = .05."]) +
+        powerCurve(C2 + 16, 240, 150, 62) +
+        T(C2, 328, "Fig. 1  Power by group size, computed in code.", "pp-caption"),
+    ),
+  );
+  out.push(
+    region(
+      5,
+      [C2 - 4, 340, 180, 50, "Needs the review to finish"],
+      T(C2, 352, "5  Open obligations", "pp-h") +
+        T(C2, 367, "Sleep hours are self-reported.", "pp-body pp-ink") +
+        `<path class="pp-mark" d="M${C2} 370H${C2 + 112}"/>` +
+        T(C2, 381, "Course load may confound the link.", "pp-body pp-ink") +
+        `<path class="pp-mark" d="M${C2} 384H${C2 + 128}"/>`,
+    ),
+  );
+  out.push(
+    region(
+      4,
+      [C2 - 4, 398, 180, 64, "Needs sources"],
+      T(C2, 410, "References", "pp-h") +
+        lines(C2, 424, ["[1] Okano K. et al. 2019. npj Sci. Learn.", "[2] Hershner S., Chervin R. 2014. Nat. Sci. Sleep.", "[3] Gillen-O'Neel C. et al. 2013. Child Dev."], "pp-small", 10.4),
+    ),
+  );
+  out.push(
+    region(
+      4,
+      [L - 4, 470, 368, 66, "Needs your answers at the gates"],
+      R(L, 472, 390, 472) +
+        T(L, 486, "6  Decision record", "pp-h") +
+        [
+          ["GATE 1", "Reading list approved", "Minh Nguyen"],
+          ["GATE 2", "H1 and H2 kept, H3 set aside", "Ana López"],
+          ["GATE 3", "Plan accepted after a second review", "Tom Hale"],
+        ]
+          .map(([g, what, who], i) => T(L, 501 + i * 11.5, g, "pp-mono") + T(L + 44, 501 + i * 11.5, what, "pp-body") + T(390, 501 + i * 11.5, who, "pp-small", ' text-anchor="end"'))
+          .join(""),
+    ),
+  );
+  out.push(`<path class="pp-rule" d="M${L} 560H390"/>`, T(L, 574, "Statistics computed in code, never written by a model.", "pp-small"), T(390, 574, "1 / 9", "pp-head", ' text-anchor="end"'));
+  return out.join("");
+}
+
+// Six callouts. Each act's leader starts at the edge of the first part it writes.
+const callouts3 = [
+  { side: "left", at: [22, 109], label: "Project", text: "Its members become the authors" },
+  { side: "left", at: [22, 185], label: "Data", text: "Profiled in code, never row by row" },
+  { side: "right", at: [398, 70], label: "Case", text: "Your question, case v1" },
+  { side: "right", at: [398, 151], label: "Mode", text: "Light: three gates" },
+  { side: "left", at: [22, 377], label: "Gates", text: "24 papers in, H1 and H2 kept" },
+  { side: "right", at: [398, 185], label: "Review", text: "Second model, then the PI" },
+];
+
+function callout3(c, index, y) {
+  const [ax, ay] = onPage(c.at[0], c.at[1]);
+  const left = c.side === "left";
+  const tx = left ? LABEL3 - 20 : W3 - LABEL3 + 20;
+  const bend = left ? tx + 14 : tx - 14;
+  const words = c.text.split(" ");
+  const rows = [""];
+  for (const word of words) {
+    if (`${rows[rows.length - 1]} ${word}`.trim().length > 19) rows.push(word);
+    else rows[rows.length - 1] = `${rows[rows.length - 1]} ${word}`.trim();
+  }
+  const anchor = left ? "end" : "start";
+  const textX = left ? tx - 6 : tx + 6;
+  return `<g data-callout="${index}"><path class="pp-leader draw" d="M${ax.toFixed(1)} ${ay.toFixed(1)}L${bend} ${y}H${tx}"/><circle class="pp-dot" cx="${ax.toFixed(1)}" cy="${ay.toFixed(1)}" r="2.4"/>${T(textX, y - 4, `0${index + 1}  ${c.label.toUpperCase()}`, "pp-callout-head", ` text-anchor="${anchor}"`)}${rows.map((row, i) => T(textX, y + 10 + i * 13, row, "pp-callout", ` text-anchor="${anchor}"`)).join("")}</g>`;
+}
+
+function figure3() {
+  const back = [2, 1].map((i) =>
+    S(k.slabOf({ x: i * 8, y: -i * 13, w: PAGE.w, d: PAGE.t, r: 0.5 }, 0, PAGE.h, P3, 2), { tone: "lo" }),
+  );
+  const front = S(k.slabOf({ x: 0, y: 0, w: PAGE.w, d: PAGE.t, r: 0.5 }, 0, PAGE.h, P3, 2), { tone: "mid" });
+  const face = `<g class="pp-page" transform="${k.sideMatrix([0, PAGE.t], PAGE.h, P3, "left")}">${page3()}</g>`;
+  // Callouts on each side are spaced so their text never collides.
+  const ys = {};
+  for (const side of ["left", "right"]) {
+    let floor = 0;
+    callouts3
+      .map((c, i) => ({ c, i, y: onPage(c.at[0], c.at[1])[1] }))
+      .filter(({ c }) => c.side === side)
+      .sort((a, b) => a.y - b.y)
+      .forEach(({ i, y }) => {
+        ys[i] = Math.max(y, floor);
+        floor = ys[i] + 58;
+      });
+  }
+  const shadow = `<path class="iso-halo" d="${k.haloOf({ x: 0, y: -26, w: PAGE.w + 16, d: PAGE.t + 26, r: 1 }, 0, 2, P3)}"/>`;
+  const svg = k.figureSvg({
+    width: W3,
+    height: H3,
+    label:
+      "One page of the closing report, set like a printed paper: the question as its title, the project members as authors, the run's mode, then data, evidence, hypotheses, the experiment plan with a power curve computed in code, the open obligations, references and the decision record. Six callouts say which of your steps wrote each part.",
+    body: [shadow, ...back, front, face, ...callouts3.map((c, i) => callout3(c, i, ys[i]))],
+  });
+  // Camera frames, one per act: the parts that act writes plus its callout, held to the figure's aspect ratio.
+  const frames = callouts3.map((c, act) => {
+    const pts = regions3.filter((r) => r.act === act).flatMap(({ box: [x, y, w, h] }) => [onPage(x, y), onPage(x + w, y + h), onPage(x + w, y), onPage(x, y + h)]);
+    const tx = c.side === "left" ? 4 : W3 - 4;
+    pts.push([tx, ys[act] - 20], [tx, ys[act] + 40]);
+    const xs = pts.map(([x]) => x);
+    const yv = pts.map(([, y]) => y);
+    let w = Math.max(...xs) - Math.min(...xs) + 40;
+    let h = Math.max(...yv) - Math.min(...yv) + 40;
+    w = Math.max(w, W3 * 0.56);
+    if (w / h > W3 / H3) h = (w * H3) / W3;
+    else w = (h * W3) / H3;
+    const cx = (Math.max(...xs) + Math.min(...xs)) / 2;
+    const cy = (Math.max(...yv) + Math.min(...yv)) / 2;
+    const x = Math.min(Math.max(cx - w / 2, 0), W3 - w);
+    const y = Math.min(Math.max(cy - h / 2, 0), H3 - h);
+    return [x, y, w, h].map((v) => Math.round(v * 10) / 10);
+  });
+  return { svg, frames, view: [0, 0, W3, H3] };
+}
+
 const f1 = figure1();
 const f2 = figure2();
+const f3 = figure3();
 mkdirSync("src/generated", { recursive: true });
-writeFileSync("src/generated/figures.json", JSON.stringify({ line: f1, rack: f2, parts: parts.count }));
+writeFileSync("src/generated/figures.json", JSON.stringify({ line: f1, rack: f2, report: f3, parts: parts.count }));
 writeFileSync("src/app/anatomy.css", k.ISO_CSS);
-console.log(`Anatomy: research line and dispatch rack, ${parts.count} shaded parts.`);
+console.log(`Anatomy: research line, dispatch rack and report, ${parts.count} shaded parts.`);

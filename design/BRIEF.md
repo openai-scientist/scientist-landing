@@ -39,8 +39,8 @@ First build in a new registry: no previous rows to compare.
 | Statement    | Scroll Craft kinetic words                                    | The quiet act before the peak                              |
 | Research line | GSAP pin + scrub over a pure state function, Anatomy Fig 1   | The peak: a run you can watch and stop at any step         |
 | System       | Scroll Craft reveal, selectable parts, Anatomy Fig 2          | What each service owns and who it talks to                 |
-| Using it     | Scroll Craft pan (a list on phones)                           | Six things a person does                                   |
-| Terms, FAQ   | Staggered entry, native disclosure                            | Plain answers                                              |
+| Using it     | Pinned GSAP scrub, camera zoom over Fig 3 (static on phones)  | Each step writes part of the report page                   |
+| Terms, FAQ   | Poster lexicon with related terms, native disclosure          | Plain answers                                              |
 | Close        | Dark endplate, Lottie bloom                                   | One next action                                            |
 
 ## Source truth

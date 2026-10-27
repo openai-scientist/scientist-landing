@@ -286,11 +286,14 @@ export function SplitField({ boundary, paused }: { boundary: () => Boundary | nu
     start();
     // Text widths change once the web font arrives, and the seam is measured from them.
     let alive = true;
+    // Measure again once the hero's intro has set the copy and cards in place; mid-intro they sit lower.
+    const settle = window.setTimeout(() => alive && resize(), 2300);
     void document.fonts?.ready.then(() => {
       if (alive) resize();
     });
     return () => {
       alive = false;
+      window.clearTimeout(settle);
       cancelAnimationFrame(raf);
       observer.disconnect();
       seen.disconnect();

@@ -551,25 +551,6 @@ body.menu-open .header-actions {
 .hero-bloom.formation-2 .lottie-surface {
   transform: scale(1.1);
 }
-.hero-index {
-  position: absolute;
-  top: 0;
-  right: 92px;
-  display: grid;
-  gap: 10px;
-  padding-top: 18px;
-  color: var(--night-soft);
-  font-size: 10.5px;
-}
-.hero-index::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 22px;
-  height: 1px;
-  background: var(--night-soft);
-}
 .hero-thumbs {
   position: absolute;
   top: 36%;
@@ -647,6 +628,10 @@ body.menu-open .header-actions {
 .hero-steps > li:nth-child(3) .step-art,
 .hero-steps > li:nth-child(3) .round-link {
   color: var(--paper);
+}
+/* The third card's words end on grey, so its description is set in full ink rather than the soft grey. */
+.hero-steps > li:nth-child(3) p {
+  color: var(--ink);
 }
 .hero-steps > li:nth-child(3) .round-link:hover {
   background: var(--paper);
@@ -1372,215 +1357,396 @@ body.menu-open .header-actions {
   letter-spacing: 0.12em;
 }
 
-/* ------------------------------------------------------------------ using it (pan) */
+/* ------------------------------------------------------------------ using it: fig 3, the report assembled */
 
-.using {
+.ms {
   background: var(--paper-2);
 }
-.using-stage {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: clamp(28px, 5vh, 56px);
-  height: 100svh;
-  overflow: hidden;
-  padding-top: var(--header);
+.ms-stage {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.62fr) minmax(0, 1.38fr);
+  align-items: center;
+  gap: clamp(24px, 3vw, 56px);
+  min-height: 100svh;
+  padding-top: calc(var(--header) + 20px);
+  padding-bottom: 24px;
 }
-.using-head {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 24px;
+.ms-guide h2 {
+  font-size: clamp(28px, 2.5vw, 42px);
+  font-weight: 450;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
 }
-.using-head h2 {
-  font-size: clamp(36px, 3.6vw, 58px);
-  line-height: 1;
-  letter-spacing: -0.05em;
+.ms-guide h2 span {
+  color: var(--ink-faint);
 }
-.using-head p {
-  color: var(--ink-soft);
-  font-size: 16px;
+.ms-acts {
+  display: grid;
+  margin-top: clamp(20px, 4vh, 36px);
+  border-top: 1px solid var(--line);
 }
-.using-rail {
-  display: flex;
-  gap: 16px;
-  width: max-content;
-  padding-left: var(--gutter);
-  padding-right: var(--gutter);
+.ms-acts li {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line);
+  transition: color 300ms;
 }
-.using-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: clamp(280px, 26vw, 360px);
-  padding: 46px 22px 26px;
-  border-radius: 16px;
-  background: var(--card);
-  box-shadow: inset 0 0 0 1px var(--line);
-}
-.using-index {
-  position: absolute;
-  top: 16px;
-  left: 22px;
+.ms-act-number {
+  padding-top: 4px;
   color: var(--ink-faint);
   font-family: var(--font-geist-mono), monospace;
-  font-size: 12px;
-}
-.using-specimen {
-  display: grid;
-  align-content: center;
-  height: 168px;
-  margin-bottom: 22px;
-  padding: 18px;
-  border-radius: 10px;
-  background: var(--paper);
-  box-shadow: inset 0 0 0 1px var(--line);
-  font-size: 13px;
-}
-.using-card h3 {
-  font-size: 21px;
-  letter-spacing: -0.03em;
-}
-.using-card p {
-  margin-top: 8px;
-  color: var(--ink-soft);
-  font-size: 14.5px;
-}
-.spec-rows {
-  display: grid;
-  gap: 10px;
-}
-.spec-rows li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.spec-avatar {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
-  background: var(--ink);
-  color: var(--paper);
   font-size: 10.5px;
-  font-weight: 600;
+  letter-spacing: 0.08em;
 }
-.spec-file {
-  width: 18px;
-  height: 22px;
-  border-radius: 3px;
-  box-shadow: inset 0 0 0 1px var(--ink-faint);
-}
-.spec-chip {
-  margin-left: auto;
-  padding: 2px 9px;
-  border-radius: 999px;
-  box-shadow: inset 0 0 0 1px var(--line);
-  color: var(--ink-soft);
-  font-size: 11.5px;
-}
-.spec-chip.is-on {
-  background: var(--ink);
-  color: var(--paper);
-  box-shadow: none;
-}
-.spec-case {
-  display: grid;
-  gap: 14px;
-}
-.spec-case p {
-  font-size: 15px;
-  line-height: 1.35;
+.ms-acts strong {
+  font-size: 16px;
+  font-weight: 500;
   letter-spacing: -0.01em;
 }
-.spec-case div {
+.ms-act-text {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 500ms var(--ease);
+}
+.ms-act-text p {
+  overflow: hidden;
+  padding-top: 4px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.45;
+}
+/* While the scroll draws the report, only the step in hand is open. */
+.ms[data-live] .ms-acts li {
+  color: var(--ink-faint);
+}
+.ms[data-live] .ms-acts li[data-state="done"] {
+  color: var(--ink-soft);
+}
+.ms[data-live] .ms-acts li[data-state="on"],
+.ms[data-live] .ms-acts li[data-state="on"] .ms-act-number {
+  color: var(--ink);
+}
+.ms[data-live] .ms-act-text {
+  grid-template-rows: 0fr;
+}
+.ms[data-live] li[data-state="on"] .ms-act-text {
+  grid-template-rows: 1fr;
+}
+.ms[data-live] .ms-act-text p {
+  padding-top: 0;
+}
+.ms[data-live] li[data-state="on"] .ms-act-text p {
+  padding-top: 4px;
+}
+.ms-plate {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  /* No plate: the page is a sheet of paper and lies on the section's own ground; only the corner labels stay. */
+  padding: 28px 0 26px;
+}
+.ms-plate .plate-corners {
+  color: var(--ink-faint);
+}
+.ms-plate .plate-corners [data-corner="readout"] {
+  color: var(--ink);
+}
+.ms-figure {
+  width: 100%;
+  max-height: calc(100svh - var(--header) - 100px);
+  aspect-ratio: 880 / 760;
+  overflow: hidden;
+  /* With no plate to crop against, a zoomed page fades out at the edges instead of being cut. */
+  mask-image: linear-gradient(to right, transparent, #000 3%, #000 97%, transparent), linear-gradient(to bottom, transparent, #000 3%, #000 97%, transparent);
+  mask-composite: intersect;
+}
+.ms-figure .iso-svg {
+  width: 100%;
+  height: 100%;
+}
+.ms-figure.iso[data-theme="light"] {
+  --anatomy-paper: var(--paper-2);
+}
+.ms:not([data-live]) [data-ghost] {
+  display: none;
+}
+.ms-figure .pp-sheet {
+  fill: #fff;
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.6;
+}
+/* The page itself: set like a printed paper, in the site's type, coloured from the Anatomy tokens. */
+.ms-figure .pp {
+  fill: var(--anatomy-hi);
+  font-family: var(--font-geist), sans-serif;
+}
+.ms-figure .pp-head,
+.ms-figure .pp-label,
+.ms-figure .pp-mono,
+.ms-figure .pp-tick,
+.ms-figure .pp-need-text,
+.ms-figure .pp-callout-head {
+  font-family: var(--font-geist-mono), monospace;
+}
+.ms-figure .pp-head {
+  fill: var(--anatomy-mid);
+  font-size: 6px;
+  letter-spacing: 0.1em;
+}
+.ms-figure .pp-strong {
+  fill: var(--anatomy-hi);
+}
+.ms-figure .pp-title {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.ms-figure .pp-authors {
+  font-size: 9px;
+}
+.ms-figure .pp-small,
+.ms-figure .pp-caption {
+  fill: var(--anatomy-text);
+  font-size: 6.6px;
+}
+.ms-figure .pp-label {
+  fill: var(--anatomy-mid);
+  font-size: 5.4px;
+  letter-spacing: 0.1em;
+}
+.ms-figure .pp-meta {
+  font-size: 8px;
+}
+.ms-figure .pp-h {
+  font-size: 8.6px;
+  font-weight: 600;
+}
+.ms-figure .pp-body {
+  fill: var(--anatomy-text);
+  font-size: 7.4px;
+}
+.ms-figure .pp-ink {
+  fill: var(--anatomy-hi);
+}
+.ms-figure .pp-strong-body {
+  font-size: 7.4px;
+  font-weight: 600;
+}
+.ms-figure .pp-mono {
+  font-size: 6.4px;
+}
+.ms-figure .pp-tick {
+  fill: var(--anatomy-mid);
+  font-size: 5px;
+}
+.ms-figure .pp-dropped .pp {
+  fill: var(--anatomy-mid);
+}
+.ms-figure .pp-need {
+  fill: #fff;
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.6;
+  stroke-dasharray: 3 2.5;
+}
+.ms-figure .pp-need-text {
+  fill: var(--anatomy-mid);
+  font-size: 6px;
+  letter-spacing: 0.12em;
+}
+.ms-figure .pp-rule,
+.ms-figure .pp-axis {
+  fill: none;
+  stroke: var(--anatomy-lo);
+  stroke-width: 0.5;
+}
+.ms-figure .pp-axis {
+  stroke: var(--anatomy-mid);
+}
+.ms-figure .pp-rule-strong {
+  fill: none;
+  stroke: var(--anatomy-hi);
+  stroke-width: 0.8;
+}
+.ms-figure .pp-curve {
+  fill: none;
+  stroke: var(--anatomy-hi);
+  stroke-width: 1.1;
+}
+.ms-figure .pp-guide {
+  fill: none;
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.5;
+  stroke-dasharray: 2 2;
+}
+.ms-figure .pp-dot {
+  fill: var(--anatomy-hi);
+}
+.ms-figure .pp-strike,
+.ms-figure .pp-mark {
+  fill: none;
+  stroke: var(--anatomy-hi);
+  stroke-width: 0.8;
+}
+.ms-figure .pp-mark {
+  stroke-width: 1.4;
+}
+/* Callouts sit off the page, in the drawing's own labelling voice. */
+.ms-figure .pp-leader {
+  fill: none;
+  stroke: var(--anatomy-hi);
+  stroke-width: 0.7;
+}
+.ms-figure .pp-callout-head {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+.ms-figure .pp-callout {
+  fill: var(--anatomy-text);
+  font-size: 11.5px;
+}
+
+/* ------------------------------------------------------------------ terms: the lexicon */
+
+.lexicon {
+  padding-block: clamp(96px, 14vh, 168px);
+}
+.lex-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--ink);
+}
+.lex-head h2 {
+  color: var(--ink);
+}
+.lex-head p {
+  max-width: 44ch;
+  color: var(--ink-soft);
+  font-size: 15px;
+  text-align: right;
+}
+/* Every term set as one poster paragraph; the chosen word is ink, its relatives grey, the rest faint. */
+.lex-cloud {
+  margin-top: clamp(28px, 5vh, 52px);
+  font-size: clamp(30px, 4.3vw, 70px);
+  font-weight: 450;
+  line-height: 1.06;
+  letter-spacing: -0.05em;
+}
+.lex-word {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  vertical-align: top;
+  color: color-mix(in srgb, var(--ink-faint) 55%, var(--paper));
+  font-size: inherit;
+  letter-spacing: inherit;
+  transition: color 300ms var(--ease);
+}
+.lex-word > span {
+  display: inline-block;
+  background: linear-gradient(currentColor, currentColor) 0 92% / 0 2px no-repeat;
+  transition: background-size 500ms var(--ease);
+}
+.lex-word[data-state="near"] {
+  color: var(--ink-soft);
+}
+.lex-word[data-state="on"],
+.lex-word:hover {
+  color: var(--ink);
+}
+.lex-word[aria-pressed="true"] > span {
+  background-size: 100% 2px;
+}
+.lex-sep {
+  margin-inline: 0.16em;
+  color: var(--line);
+  font-weight: 250;
+  vertical-align: top;
+}
+.lex-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr) minmax(0, 0.9fr) auto;
+  align-items: start;
+  gap: clamp(20px, 3vw, 48px);
+  min-height: 150px;
+  margin-top: clamp(36px, 6vh, 64px);
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.lex-name {
+  display: grid;
+  gap: 8px;
+}
+.lex-kind,
+.lex-see > span,
+.lex-fig span {
+  color: var(--ink-faint);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.lex-name h3 {
+  font-size: clamp(28px, 2.6vw, 40px);
+  font-weight: 450;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+.lex-meaning {
+  padding-top: 22px;
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+}
+.lex-see {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  padding-top: 2px;
 }
-.spec-case .spec-chip {
-  margin: 0;
+.lex-see > span {
+  width: 100%;
+  margin-bottom: 4px;
 }
-.spec-toggle {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-self: center;
-  width: 200px;
-  padding: 3px;
+.lex-see button {
+  min-height: 32px;
+  padding: 0 12px;
   border-radius: 999px;
   box-shadow: inset 0 0 0 1px var(--line);
+  font-size: 13.5px;
+  transition:
+    background-color 200ms,
+    color 200ms;
 }
-.spec-toggle span {
-  padding: 8px 0;
-  border-radius: 999px;
-  text-align: center;
-}
-.spec-toggle .is-on {
+.lex-see button:hover {
   background: var(--ink);
   color: var(--paper);
 }
-.spec-gate {
+.lex-fig {
   display: grid;
-  gap: 14px;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: 6px;
+  row-gap: 4px;
+  font-size: 15px;
+  text-align: left;
 }
-.spec-gate div {
-  display: flex;
-  gap: 8px;
+.lex-fig span {
+  grid-column: 1 / -1;
 }
-.spec-button {
-  padding: 7px 14px;
-  border-radius: 999px;
-  box-shadow: inset 0 0 0 1px var(--line);
+.lex-fig svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 300ms var(--ease);
 }
-.spec-button.is-on {
-  background: var(--ink);
-  color: var(--paper);
-  box-shadow: none;
-}
-
-/* ------------------------------------------------------------------ terms */
-
-.terms {
-  display: grid;
-  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
-  gap: clamp(32px, 5vw, 96px);
-  padding-block: clamp(96px, 14vh, 160px);
-}
-.terms-head {
-  position: sticky;
-  top: calc(var(--header) + 32px);
-  align-self: start;
-}
-.terms-head h2 {
-  font-size: clamp(36px, 3.6vw, 58px);
-  line-height: 1;
-  letter-spacing: -0.05em;
-}
-.terms-head p {
-  max-width: 36ch;
-  margin-top: 18px;
-  color: var(--ink-soft);
-  font-size: 16px;
-}
-.terms-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 40px;
-}
-.terms-list > div {
-  padding: 18px 0;
-  border-top: 1px solid var(--line);
-}
-.terms-list dt {
-  font-size: 16px;
-  font-weight: 550;
-  letter-spacing: -0.01em;
-}
-.terms-list dd {
-  margin-top: 4px;
-  color: var(--ink-soft);
-  font-size: 14.5px;
+.lex-fig:hover svg {
+  transform: translate(2px, -2px);
 }
 
 /* ------------------------------------------------------------------ questions */
@@ -1773,19 +1939,6 @@ body.menu-open .header-actions {
 
 /* ------------------------------------------------------------------ responsive */
 
-/* The output index needs the room a wide screen gives it; narrower, the drawing would run into it. */
-@media (max-width: 1599px) {
-  .hero-index {
-    display: none;
-  }
-}
-/* With the index showing, the drawing keeps clear of it. */
-@media (min-width: 1600px) {
-  .hero-depth {
-    right: 170px;
-  }
-}
-
 @media (max-width: 1180px) {
   .desktop-nav {
     display: none;
@@ -1898,10 +2051,28 @@ body.menu-open .header-actions {
     padding-left: 0;
     border-left: 0;
   }
+  /* A phone drops the drawing and its controls; the copy and the four cards carry the hero. */
   .hero-art {
-    min-height: 0;
-    height: min(92vw, 460px);
-    margin-top: 72px;
+    display: none;
+  }
+  .hero-actions {
+    flex-wrap: nowrap;
+    gap: 16px;
+  }
+  .hero-actions .button {
+    flex-shrink: 0;
+    padding-inline: 22px 18px;
+  }
+  .watch-link {
+    gap: 10px;
+    white-space: nowrap;
+  }
+  .watch-link small {
+    display: none;
+  }
+  .watch-icon {
+    width: 44px;
+    height: 44px;
   }
   .hero-depth {
     inset: 0;
@@ -1909,10 +2080,7 @@ body.menu-open .header-actions {
   .hero-pointer {
     width: min(100cqw, 100cqh);
   }
-  .hero-index {
-    display: none;
-  }
-  .hero-thumbs {
+    .hero-thumbs {
     top: auto;
     bottom: 0;
     left: 0;
@@ -1932,6 +2100,7 @@ body.menu-open .header-actions {
   }
   .hero-steps {
     grid-template-columns: 1fr;
+    margin-top: 72px;
     padding-top: 24px;
     color: var(--paper);
   }
@@ -2062,12 +2231,10 @@ body.menu-open .header-actions {
     grid-row: auto;
   }
   .rack-grid,
-  .terms,
   .questions {
     grid-template-columns: 1fr;
   }
-  .rack-copy,
-  .terms-head {
+  .rack-copy {
     position: static;
   }
   .rack-plate {
@@ -2088,24 +2255,51 @@ body.menu-open .header-actions {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  .using-stage {
-    height: auto;
+  .ms-stage {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    min-height: 0;
     padding-block: 96px;
   }
-  .using-head {
+  .ms-plate {
+    padding: 34px 2px 30px;
+  }
+  .ms-plate .plate-corners [data-corner="hint"] {
+    display: none;
+  }
+  /* A phone keeps the figure whole, callouts included, run edge to edge; only the step list is left out. */
+  .ms-plate {
+    margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  }
+  .ms-plate .plate-corners {
+    inset-inline: max(16px, env(safe-area-inset-left, 0px));
+  }
+  .ms-figure {
+    max-height: none;
+    mask-image: none;
+  }
+  .ms-figure .pp-callout {
+    font-size: 14px;
+  }
+  .ms-figure .pp-callout-head {
+    font-size: 11px;
+  }
+  .ms-acts {
+    display: none;
+  }
+  .lex-head {
     flex-direction: column;
-    align-items: flex-start;
+    gap: 8px;
   }
-  .using-rail {
-    flex-direction: column;
-    width: 100%;
-    padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+  .lex-head p {
+    text-align: left;
   }
-  .using-card {
-    width: 100%;
-  }
-  .terms-list {
+  .lex-entry {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .lex-meaning {
+    padding-top: 0;
   }
   .closing-inner {
     grid-template-columns: 1fr;

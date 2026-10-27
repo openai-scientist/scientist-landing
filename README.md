@@ -30,15 +30,16 @@ npm start
 - **Statement.** One quiet line before the peak, revealed word by word with Scroll Craft.
 - **The research line (Fig 1, the peak).** An Anatomy figure: a carriage holding the research case rides past the dataset, hypothesis and experiment-design instruments. Each arm has a stage head and a review head, gates open for accepted stages, open findings clip on as tags, a dial reads the token budget. GSAP pins the section and scrubs a pure `stateAt(progress)`; every step can also be picked directly, and the light/auto switch moves the levers.
 - **The dispatch rack (Fig 2).** An Anatomy figure of the architecture: browser, Platform cabinet, three engine bays and the oversight bay, with request and callback cables. Pick a part to see what it owns and who it talks to.
-- **Using it.** Six steps on a sideways Scroll Craft pan (a plain list on phones).
-- **Terms, questions, close.** A glossary of every product term, native FAQ disclosures and a dark endplate.
+- **Using it.** Fig 3, one page of the closing report drawn with the Anatomy kit. Pinned on wide screens: each of six steps writes its parts of the page while the camera follows; a static page with the steps listed on phones.
+- **Terms, questions, close.** A typographic lexicon of every product term (pick one and its relatives light up, with a link to where Fig 1 draws it), native FAQ disclosures and a dark endplate.
 - Reduced motion removes pinning, scrubbing, parallax and loops; every step stays reachable. Ambient motion can be paused from the hero.
 
 Diagram content follows `../logos/docs/architecture.md`. Product specimens are illustrative and labelled as such; the landing makes no backend or model calls.
 
 ## Files
 
-- `src/app/_components/landing.tsx`: header, statement, usage, terms, questions, close and search.
+- `src/app/_components/landing.tsx`: header, statement, questions, close and search.
+- `src/app/_components/manuscript.tsx` and `lexicon.tsx`: Fig 3 (using it) and the terms.
 - `src/app/_components/hero.tsx` and `split-field.tsx`: the hero and its canvas seam.
 - `src/app/_components/research-line.tsx`: Fig 1, its step copy and choreography.
 - `src/app/_components/system-rack.tsx`: Fig 2 and its parts.

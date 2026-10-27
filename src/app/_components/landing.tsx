@@ -5,8 +5,10 @@ import Script from "next/script";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { APP_LOGIN_URL, BRAND } from "@/config/brand";
 import { Hero } from "./hero";
+import { Lexicon } from "./lexicon";
 import { Arrow, BrandMark } from "./icons";
 import { Lottie } from "./lottie";
+import { Manuscript } from "./manuscript";
 import { type LineHandle, ResearchLine } from "./research-line";
 import { SystemRack } from "./system-rack";
 
@@ -25,120 +27,6 @@ const sections = [
   { title: "Using it", subtitle: "From a new project to the closing report", href: "#using" },
   { title: "Terms", subtitle: "Every word the product uses, in one line each", href: "#terms" },
   { title: "Questions", subtitle: "Control, sources, disagreements and limits", href: "#questions" },
-];
-
-const usage = [
-  {
-    title: "Start a project",
-    text: "Create a project and invite people. Each member has one role: Project Manager, Researcher or Reviewer.",
-    specimen: (
-      <ul className="spec-rows">
-        <li>
-          <span className="spec-avatar">AL</span>Project Manager
-        </li>
-        <li>
-          <span className="spec-avatar">MN</span>Researcher
-        </li>
-        <li>
-          <span className="spec-avatar">TH</span>Reviewer
-        </li>
-      </ul>
-    ),
-  },
-  {
-    title: "Bring data, if you have it",
-    text: "Upload CSV or XLSX, or import from PostgreSQL, MySQL, BigQuery, Google Sheets and more. Datasets are versioned, never overwritten.",
-    specimen: (
-      <ul className="spec-rows">
-        <li>
-          <span className="spec-file" />
-          enrolment.csv<span className="spec-chip">v3</span>
-        </li>
-        <li>
-          <span className="spec-file" />
-          BigQuery · cohorts<span className="spec-chip">v1</span>
-        </li>
-      </ul>
-    ),
-  },
-  {
-    title: "Write the case",
-    text: "One question, the kind of answer you want, and what you will do with the result. Context and constraints are optional.",
-    specimen: (
-      <div className="spec-case">
-        <p>Does more sleep go with higher exam scores among our undergraduates?</p>
-        <div>
-          <span className="spec-chip is-on">Test a claim</span>
-          <span className="spec-chip">Compare</span>
-          <span className="spec-chip">Explain</span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Choose how involved you are",
-    text: "Light mode stops at each gate for you. Auto mode lets the PI decide while you read the record as it grows.",
-    specimen: (
-      <div className="spec-toggle">
-        <span className="is-on">Light</span>
-        <span>Auto</span>
-      </div>
-    ),
-  },
-  {
-    title: "Answer the stops",
-    text: "Approve the reading list, pick hypotheses, accept a stage or send it back. Every decision is logged with who made it.",
-    specimen: (
-      <div className="spec-gate">
-        <p>Shortlist ready · 24 papers</p>
-        <div>
-          <span className="spec-button is-on">Approve</span>
-          <span className="spec-button">Send back</span>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Read what it made",
-    text: "Hypotheses with their evidence, the argument map, the reviewed plan and a closing report that names what is still open.",
-    specimen: (
-      <ul className="spec-rows">
-        <li>
-          <span className="spec-file" />
-          hypotheses<span className="spec-chip">reviewed</span>
-        </li>
-        <li>
-          <span className="spec-file" />
-          argument map
-        </li>
-        <li>
-          <span className="spec-file" />
-          closing report<span className="spec-chip">2 open</span>
-        </li>
-      </ul>
-    ),
-  },
-];
-
-const terms = [
-  ["Research case", "Your question, intent, context, constraints and references. Versioned; only you amend it."],
-  ["Charter", "The PI's reading of the case: what the run is for and how it will be judged."],
-  ["Pipeline", "The order of stages. dataset_first with a dataset, default without one."],
-  ["Stage", "One engine's part of a run: draft, independent review, revise."],
-  ["Engine", "A service that does the science of one stage. It has no screen of its own."],
-  ["Gate", "A point where a run waits for a decision: yours in light mode, a rule's or the PI's in auto."],
-  ["Light mode", "You answer the gates and accept each stage."],
-  ["Auto mode", "The PI decides. You read the record and can step in."],
-  ["Review model", "A different model from the one that drafted. It reviews the stage's output."],
-  ["Finding", "Something a reviewer flags. A blocking finding stops a stage being published as reviewed."],
-  ["Send back", "Returning work for revision. Bounded, so a run always ends."],
-  ["Critic", "Reviews each finished stage against the charter, accepted risks and your directives."],
-  ["Principal Investigator", "The AI PI. Writes the charter, accepts or sends back stages, writes the closing report."],
-  ["Obligation", "A finding still open when a stage is accepted. It travels with the run as a known risk."],
-  ["Evidence card", "What a paper says, extracted from its abstract and linked to its source."],
-  ["Argument map", "How hypotheses, evidence and objections connect."],
-  ["Data card", "A profile of every column, computed in code. Models see this, never the rows."],
-  ["Token budget", "One limit for a run, covering every stage and PI consultation."],
 ];
 
 const questions = [
@@ -181,9 +69,6 @@ export function Landing() {
 
   const mountScrollCraft = useCallback(() => {
     if (!root.current || !window.ScrollCraft || scrollcraft.current) return;
-    // A phone reads the usage steps as a list; the sideways pan is for wide screens.
-    const pan = root.current.querySelector("#using");
-    if (pan && window.matchMedia("(max-width: 860px)").matches) pan.setAttribute("data-sc-act", "flow");
     scrollcraft.current = window.ScrollCraft.mount(root.current, { lerp: 0.15 });
     ScrollTrigger.refresh();
   }, []);
@@ -199,12 +84,32 @@ export function Landing() {
       }
       if (event.key === "Escape") setMenuOpen(false);
     };
+    // In-page links scroll to their section without writing a #fragment into the address bar.
+    const onClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
+      const id = link?.getAttribute("href")?.slice(1);
+      if (!link || !id) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      event.preventDefault();
+      const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // To the section's very top: every section clears the header with its own padding, and the pinned ones
+      // only lock in place from there.
+      const top = id === "main" ? 0 : target.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top, behavior: smooth ? "smooth" : "auto" });
+      // Keyboard and screen reader users land where the link points, as a real jump would take them.
+      if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("keydown", onKey);
+    document.addEventListener("click", onClick);
     onScroll();
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("keydown", onKey);
+      document.removeEventListener("click", onClick);
       scrollcraft.current?.destroy();
       scrollcraft.current = null;
     };
@@ -313,41 +218,9 @@ export function Landing() {
 
         <SystemRack />
 
-        <section id="using" className="using" aria-labelledby="using-title" data-sc-act="pan" data-sc-span="2.6">
-          <div className="using-stage" data-sc-stage>
-            <div className="using-head wrap">
-              <h2 id="using-title">Using it, start to finish.</h2>
-              <p>Six things you do. The rest is the run.</p>
-            </div>
-            <ol className="using-rail" data-sc-pan="0">
-              {usage.map((item, index) => (
-                <li key={item.title} className="using-card">
-                  <span className="using-index">{index + 1}</span>
-                  <div className="using-specimen" aria-hidden="true">
-                    {item.specimen}
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
+        <Manuscript />
 
-        <section id="terms" className="terms wrap" aria-labelledby="terms-title" data-sc-act="flow">
-          <div className="terms-head">
-            <h2 id="terms-title">The words, plainly.</h2>
-            <p>The product uses these terms everywhere: on the research line, in the run studio and in every report.</p>
-          </div>
-          <dl className="terms-list" data-sc-in data-sc-stagger="30">
-            {terms.map(([term, meaning]) => (
-              <div key={term}>
-                <dt>{term}</dt>
-                <dd>{meaning}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
+        <Lexicon onJump={(step) => line.current?.goTo(step)} />
 
         <section id="questions" className="questions wrap" aria-labelledby="questions-title">
           <h2 id="questions-title">Questions people ask first.</h2>

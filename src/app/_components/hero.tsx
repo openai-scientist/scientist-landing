@@ -55,8 +55,6 @@ const formations = [
   { name: "Orbit", src: "/animations/reason.json", speed: 0.7 },
 ];
 
-const outputs = ["Research case", "Evidence", "Hypotheses", "Experiment plan", "Closing report"];
-
 export function Hero({ paused, onPause, onStep }: { paused: boolean; onPause: () => void; onStep: (step: number) => void }) {
   const root = useRef<HTMLElement>(null);
   const copy = useRef<HTMLDivElement>(null);
@@ -79,13 +77,14 @@ export function Hero({ paused, onPause, onStep }: { paused: boolean; onPause: ()
     // Pixels never land on words, controls or the drawing.
     const avoid = [
       ...rects(".hero-copy > *"),
-      ...rects(".hero-index, .hero-thumbs, .motion-toggle"),
+      ...rects(".hero-thumbs, .motion-toggle"),
       ...rects(".hero-steps h2, .hero-steps p, .hero-steps .step-name, .hero-steps .round-link, .hero-steps .step-art"),
       ...rects(".wordmark, .desktop-nav, .header-actions", document),
     ];
     const bloom = art.current.querySelector(".hero-pointer")?.getBoundingClientRect();
     const glow = bloom ? { x: local(bloom).left + bloom.width / 2, y: local(bloom).top + bloom.height / 2, r: bloom.width * 0.42 } : null;
-    if (box.width < 900) return { axis: "y", at: local(art.current.getBoundingClientRect()).top + 24, glow, avoid };
+    // A phone has no drawing: night starts just above the step cards, which sit on it.
+    if (box.width < 900) return { axis: "y", at: local(cards.current.getBoundingClientRect()).top - 44, glow: null, avoid };
     const W = box.width;
     const H = box.height;
     let right = 0;
@@ -107,7 +106,11 @@ export function Hero({ paused, onPause, onStep }: { paused: boolean; onPause: ()
     const facts = rects(".hero-facts")[0];
     // As soft at the bottom as at the top: the reference fades over a wide band all the way down.
     const softTop = W * 0.085;
-    const softBottom = W * 0.06;
+    // A wide, gentle fade through the card row, as on the reference, placed from the third card's drawing:
+    // night is nearly full where the drawing starts, and the words end on a light grey.
+    const drawing = third.querySelector(".step-art")?.getBoundingClientRect();
+    const artLeft = drawing && drawing.width > 0 ? drawing.left - box.left : textRight + W * 0.08;
+    const softBottom = W * 0.07;
     // Darkness stays under a quarter at the end of the copy and of the menu, so both read as ink on paper.
     const top = Math.max(right + softTop * 0.4, nav ? nav.right + softTop * 0.45 : 0);
     // A wavy S through anchors, each set by what must stay legible beside it: out to the right above the
@@ -119,7 +122,7 @@ export function Hero({ paused, onPause, onStep }: { paused: boolean; onPause: ()
     const factsT = facts ? (facts.top + facts.bottom) / 2 / H : 0.6;
     const inner = Math.max(facts ? facts.right + softAt(factsT) * 0.5 : 0, top - W * 0.05);
     const cardT = (row.top + 60) / H;
-    const out = textRight + softAt(cardT) * 0.35;
+    const out = Math.max(textRight - softAt(cardT) * 0.08, artLeft - softAt(cardT) * 0.48);
     const points: [number, number][] = [
       [0, top + W * 0.035],
       [titleT, top],
@@ -150,13 +153,13 @@ export function Hero({ paused, onPause, onStep }: { paused: boolean; onPause: ()
           .from(".hero-lede, .hero-body, .hero-actions", { y: 18, autoAlpha: 0, duration: 0.8, stagger: 0.08 }, 0.45)
           .from(".hero-facts > div", { y: 14, autoAlpha: 0, duration: 0.7, stagger: 0.06 }, 0.7)
           .from(".hero-bloom", { scale: 0.86, rotation: -8, autoAlpha: 0, duration: 1.6 }, 0.1)
-          .from(".hero-index li, .hero-thumbs button", { autoAlpha: 0, x: 10, duration: 0.8, stagger: 0.05 }, 0.8)
+          .from(".hero-thumbs button", { autoAlpha: 0, x: 10, duration: 0.8, stagger: 0.05 }, 0.8)
           .from(".hero-steps > li", { y: 26, autoAlpha: 0, duration: 0.9, stagger: 0.08 }, 0.85);
 
         // Three planes leave at different rates: the bloom sinks, the index drifts, the copy stays put.
         const scroll = { trigger: root.current, start: "top top", end: "bottom top", scrub: 0.6 };
         gsap.to(".hero-depth", { yPercent: 14, scale: 1.06, ease: "none", scrollTrigger: scroll });
-        gsap.to(".hero-index, .hero-thumbs", { yPercent: -30, ease: "none", scrollTrigger: scroll });
+        gsap.to(".hero-thumbs", { yPercent: -30, ease: "none", scrollTrigger: scroll });
         gsap.to(".split-field", { yPercent: 8, ease: "none", scrollTrigger: scroll });
 
         const fine = window.matchMedia("(pointer: fine)");
@@ -242,11 +245,6 @@ export function Hero({ paused, onPause, onStep }: { paused: boolean; onPause: ()
               />
             </div>
           </div>
-          <ol className="hero-index label" aria-label="What a run produces">
-            {outputs.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ol>
           <div className="hero-thumbs" role="group" aria-label="Choose the drawing">
             {formations.map((item, index) => (
               <button key={item.name} type="button" aria-pressed={formation === index} aria-label={`Show ${item.name.toLowerCase()}`} onClick={() => setFormation(index)}>
