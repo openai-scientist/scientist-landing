@@ -6,9 +6,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { APP_LOGIN_URL, BRAND } from "@/config/brand";
 import { Hero } from "./hero";
 import { Lexicon } from "./lexicon";
+import { Limits } from "./limits";
 import { Arrow, BrandMark } from "./icons";
 import { Lottie } from "./lottie";
 import { Manuscript } from "./manuscript";
+import { Record } from "./record";
 import { type LineHandle, ResearchLine } from "./research-line";
 import { SystemRack } from "./system-rack";
 
@@ -25,18 +27,16 @@ const sections = [
   { title: "How a run works", subtitle: "Follow one run down the research line", href: "#line" },
   { title: "The system", subtitle: "The Platform, the engines and oversight", href: "#system" },
   { title: "Using it", subtitle: "From a new project to the closing report", href: "#using" },
+  { title: "Example", subtitle: "One real study, from locked plan to verdicts", href: "#record" },
+  { title: "Limits", subtitle: "What it never does, and where your data goes", href: "#limits", inHeader: false },
   { title: "Terms", subtitle: "Every word the product uses, in one line each", href: "#terms" },
-  { title: "Questions", subtitle: "Control, sources, disagreements and limits", href: "#questions" },
+  { title: "Questions", subtitle: "Control, sources and disagreements", href: "#questions" },
 ];
 
 const questions = [
   {
     q: "What does a run produce?",
     a: "Evidence-linked hypotheses with their argument map and an independently reviewed experiment plan. With a dataset, a data card and research brief come first. The closing report records the outcome and every open obligation.",
-  },
-  {
-    q: "Does it run my experiment?",
-    a: "No. It designs the experiment and reviews the plan. Running the study, and the scientific judgment about its results, stay with you.",
   },
   {
     q: "Can I stay in control of the decisions?",
@@ -153,11 +153,13 @@ export function Landing() {
             <span>{BRAND.name}</span>
           </a>
           <nav className="desktop-nav" aria-label="Main">
-            {sections.map((item) => (
-              <a key={item.href} href={item.href}>
-                {item.title === "How a run works" ? "How it runs" : item.title}
-              </a>
-            ))}
+            {sections
+              .filter((item) => item.inHeader !== false)
+              .map((item) => (
+                <a key={item.href} href={item.href}>
+                  {item.title === "How a run works" ? "How it runs" : item.title}
+                </a>
+              ))}
           </nav>
           <div className="header-actions">
             <button type="button" className="icon-button" aria-label="Search this page" aria-keyshortcuts="Meta+K" onClick={openSearch}>
@@ -220,6 +222,10 @@ export function Landing() {
 
         <Manuscript />
 
+        <Record />
+
+        <Limits />
+
         <Lexicon onJump={(step) => line.current?.goTo(step)} />
 
         <section id="questions" className="questions wrap" aria-labelledby="questions-title">
@@ -258,14 +264,39 @@ export function Landing() {
             <Lottie src="/animations/line-bloom.json" speed={0.45} paused={paused} still={0.6} className="closing-bloom" />
           </div>
           <footer className="site-footer wrap">
-            <a href="#main" className="wordmark">
-              <BrandMark />
-              <span>{BRAND.name}</span>
-            </a>
-            <p>{BRAND.independence}</p>
-            <p>
-              © {new Date().getFullYear()} {BRAND.name}
-            </p>
+            <div className="footer-brand">
+              <a href="#main" className="wordmark">
+                <BrandMark />
+                <span>{BRAND.name}</span>
+              </a>
+              <p>{BRAND.tagline}</p>
+            </div>
+            <nav className="footer-col" aria-label="On this page">
+              <p className="label">On this page</p>
+              {sections.map((item) => (
+                <a key={item.href} href={item.href}>
+                  {item.title}
+                </a>
+              ))}
+            </nav>
+            <div className="footer-col">
+              <p className="label">Account</p>
+              <a href={APP_LOGIN_URL}>Get started</a>
+              <a href={APP_LOGIN_URL}>Sign in</a>
+            </div>
+            <div className="footer-col footer-data">
+              <p className="label">Example data</p>
+              <p>Realinho et al. (2022), Predict Students’ Dropout and Academic Success. CC BY 4.0.</p>
+              <a href="https://archive.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success" target="_blank" rel="noreferrer">
+                UCI dataset 697 <Arrow diagonal />
+              </a>
+            </div>
+            <div className="footer-base">
+              <p>{BRAND.independence}</p>
+              <p>
+                © {new Date().getFullYear()} {BRAND.name}
+              </p>
+            </div>
           </footer>
         </section>
       </main>

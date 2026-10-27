@@ -40,6 +40,8 @@ First build in a new registry: no previous rows to compare.
 | Research line | GSAP pin + scrub over a pure state function, Anatomy Fig 1   | The peak: a run you can watch and stop at any step         |
 | System       | Scroll Craft reveal, selectable parts, Anatomy Fig 2          | What each service owns and who it talks to                 |
 | Using it     | Pinned GSAP scrub, camera zoom over Fig 3 (static on phones)  | Each step writes part of the report page                   |
+| Example      | Timeline rule draws, bars and intervals grow, counts tick     | One real study, shown as charts, not prose                 |
+| Limits       | Each refusal struck through as it scrolls in                  | What it always does, what it never does                    |
 | Terms, FAQ   | Poster lexicon with related terms, native disclosure          | Plain answers                                              |
 | Close        | Dark endplate, Lottie bloom                                   | One next action                                            |
 

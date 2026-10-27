@@ -31,6 +31,8 @@ npm start
 - **The research line (Fig 1, the peak).** An Anatomy figure: a carriage holding the research case rides past the dataset, hypothesis and experiment-design instruments. Each arm has a stage head and a review head, gates open for accepted stages, open findings clip on as tags, a dial reads the token budget. GSAP pins the section and scrubs a pure `stateAt(progress)`; every step can also be picked directly, and the light/auto switch moves the levers.
 - **The dispatch rack (Fig 2).** An Anatomy figure of the architecture: browser, Platform cabinet, three engine bays and the oversight bay, with request and callback cables. Pick a part to see what it owns and who it talks to.
 - **Using it.** Fig 3, one page of the closing report drawn with the Anatomy kit. Pinned on wide screens: each of six steps writes its parts of the page while the camera follows; a static page with the steps listed on phones.
+- **An example record.** Fig 4, the dropout study the product's writing preview plays on (UCI dataset 697, CC BY 4.0): its log on one timeline, the data and model comparison as bars, the planned tests as a forest plot. Numbers are copied from `ASW_Deliverables/example-record/out/`.
+- **Limits.** What the run always does and never does, each refusal struck through as it scrolls in; every line checked against the services.
 - **Terms, questions, close.** A typographic lexicon of every product term (pick one and its relatives light up, with a link to where Fig 1 draws it), native FAQ disclosures and a dark endplate.
 - Reduced motion removes pinning, scrubbing, parallax and loops; every step stays reachable. Ambient motion can be paused from the hero.
 
@@ -40,6 +42,7 @@ Diagram content follows `../logos/docs/architecture.md`. Product specimens are i
 
 - `src/app/_components/landing.tsx`: header, statement, questions, close and search.
 - `src/app/_components/manuscript.tsx` and `lexicon.tsx`: Fig 3 (using it) and the terms.
+- `src/app/_components/record.tsx` and `limits.tsx`: Fig 4 (the example record) and the limits.
 - `src/app/_components/hero.tsx` and `split-field.tsx`: the hero and its canvas seam.
 - `src/app/_components/research-line.tsx`: Fig 1, its step copy and choreography.
 - `src/app/_components/system-rack.tsx`: Fig 2 and its parts.

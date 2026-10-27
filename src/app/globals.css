@@ -1608,6 +1608,482 @@ body.menu-open .header-actions {
   font-size: 11.5px;
 }
 
+/* ------------------------------------------------------------------ an example record (fig 4) */
+
+.rec {
+  --fp-cols: minmax(0, 1fr) minmax(0, 1.3fr) 88px;
+  --bar-cols: 158px minmax(0, 1fr) 48px;
+  padding-block: clamp(96px, 14vh, 160px) clamp(64px, 9vh, 104px);
+  background: var(--night);
+  color: var(--paper);
+}
+.rec .section-mark {
+  color: var(--night-soft);
+}
+.rec .section-mark span {
+  color: var(--paper);
+}
+.rec-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+  align-items: end;
+  gap: clamp(24px, 5vw, 96px);
+}
+.rec-head h2 {
+  font-size: clamp(36px, 3.8vw, 62px);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+.rec-head h2 span {
+  color: var(--night-soft);
+}
+.rec-intro {
+  max-width: 34ch;
+  color: var(--night-soft);
+  font-size: 16px;
+}
+
+/* The log: five moments on one ruled line, in the order and at the time they happened. */
+.rec-log-wrap {
+  position: relative;
+  margin-top: clamp(48px, 8vh, 80px);
+}
+.rec-log-head {
+  margin-bottom: 18px;
+  color: var(--night-soft);
+}
+.rec-log-rule {
+  height: 1px;
+  background: var(--paper);
+  opacity: 0.5;
+}
+.rec-log {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+}
+.rec-log li {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  padding-top: 24px;
+}
+.rec-log li::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--paper);
+  border-radius: 50%;
+  background: var(--night);
+}
+.rec-log li:first-child::before {
+  background: var(--paper);
+}
+.rec-time {
+  color: var(--paper);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+.rec-time:not([data-clock]) {
+  color: var(--night-soft);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.rec-log strong {
+  font-size: clamp(17px, 1.4vw, 21px);
+  font-weight: 450;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+.rec-log code {
+  color: var(--night-soft);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+/* Fig 4: three small charts on two plates. */
+.rec-charts {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 20px;
+  margin-top: clamp(48px, 8vh, 80px);
+}
+.rec-plate {
+  margin: 0;
+  padding: 20px clamp(18px, 2vw, 28px) 26px;
+  border: 1px solid var(--night-line);
+  background: var(--night-2);
+}
+.rec-plate-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--night-soft);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.rec-plate-top span:first-child {
+  color: var(--paper);
+}
+.rec-plate-sub {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--night-line);
+}
+.rec-big {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 22px;
+}
+.rec-big span {
+  font-size: clamp(44px, 4vw, 64px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+}
+.rec-big small {
+  color: var(--night-soft);
+  font-size: 14px;
+}
+/* One bar, three outcomes. The enrolled students are hatched: their outcome is not known, so they are left out. */
+.rec-outcome-bar {
+  display: flex;
+  gap: 2px;
+  height: 14px;
+  margin-top: 20px;
+}
+.rec-outcome-bar span,
+.rec-outcome-key li::before {
+  background: var(--night-soft);
+}
+.rec-outcome-bar span:first-child {
+  border-radius: 4px 0 0 4px;
+}
+.rec-outcome-bar span:last-child {
+  border-radius: 0 4px 4px 0;
+}
+.rec-outcome-bar [data-key],
+.rec-outcome-key [data-key]::before {
+  background: var(--paper);
+}
+.rec-outcome-bar [data-out],
+.rec-outcome-key [data-out]::before {
+  background: repeating-linear-gradient(135deg, var(--night-soft) 0 1px, transparent 1px 5px);
+  box-shadow: inset 0 0 0 1px var(--night-line);
+}
+.rec-outcome-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  margin-top: 14px;
+}
+.rec-outcome-key li {
+  display: grid;
+  grid-template-columns: 8px auto;
+  column-gap: 8px;
+  align-items: baseline;
+}
+.rec-outcome-key li::before {
+  content: "";
+  grid-row: span 2;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.rec-outcome-key strong {
+  font-size: 15px;
+  font-weight: 450;
+  font-variant-numeric: tabular-nums;
+}
+.rec-outcome-key span {
+  color: var(--night-soft);
+  font-size: 12.5px;
+}
+.rec-bars {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  margin-top: 30px;
+}
+.rec-bars-guides,
+.rec-bar {
+  display: grid;
+  grid-template-columns: var(--bar-cols);
+  gap: 14px;
+  align-items: center;
+}
+.rec-bars-guides {
+  position: absolute;
+  inset: -12px 0 -6px;
+  pointer-events: none;
+}
+.rec-bars-guides > span {
+  position: relative;
+  height: 100%;
+}
+.rec-ceiling {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: repeating-linear-gradient(to bottom, var(--paper) 0 3px, transparent 3px 7px);
+}
+.rec-ceiling em {
+  position: absolute;
+  bottom: 100%;
+  right: 6px;
+  color: var(--paper);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  font-style: normal;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.rec-bars-note {
+  display: none;
+}
+.rec-bar-name {
+  color: var(--night-soft);
+  font-size: 13.5px;
+}
+.rec-bar-track {
+  position: relative;
+  height: 14px;
+}
+.rec-bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 0 4px 4px 0;
+  background: var(--night-soft);
+  opacity: 0.6;
+}
+.rec-bar-value {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.rec-bar[data-key] .rec-bar-name,
+.rec-bar[data-key] .rec-bar-value {
+  color: var(--paper);
+}
+.rec-bar[data-key] .rec-bar-fill {
+  background: var(--paper);
+  opacity: 1;
+}
+
+/* Fig 4c: a forest plot. One interval per test, the estimate as a dot, ruled against 0 and the plan's floor. */
+.fp {
+  position: relative;
+  margin-top: 34px;
+}
+.fp-guides,
+.fp-axis,
+.fp-row {
+  display: grid;
+  grid-template-columns: var(--fp-cols);
+  gap: 16px;
+  align-items: center;
+}
+.fp-guides {
+  position: absolute;
+  inset: 0 0 32px;
+  pointer-events: none;
+}
+.fp-scale {
+  position: relative;
+  height: 100%;
+}
+.fp-guide {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--night-line);
+}
+.fp-guide[data-zero] {
+  background: var(--night-soft);
+}
+.fp-floor {
+  background: repeating-linear-gradient(to bottom, var(--paper) 0 3px, transparent 3px 7px);
+  opacity: 0.6;
+}
+.fp-floor em {
+  position: absolute;
+  bottom: 100%;
+  left: 6px;
+  color: var(--paper);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  font-style: normal;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.fp-row {
+  min-height: 52px;
+  border-top: 1px solid var(--night-line);
+  color: var(--night-soft);
+}
+.fp-row:last-child {
+  border-bottom: 1px solid var(--night-line);
+}
+.fp-row[data-verdict="Supported"],
+.fp-row[data-verdict="Holds"] {
+  color: var(--paper);
+}
+.fp-name {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 8px;
+  align-items: baseline;
+}
+.fp-key {
+  color: var(--night-soft);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+}
+.fp-name strong {
+  font-size: 14px;
+  font-weight: 450;
+  line-height: 1.3;
+}
+.fp-track {
+  position: relative;
+  height: 20px;
+}
+.fp-ci {
+  position: absolute;
+  top: 9px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+.fp-ci::before,
+.fp-ci::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  width: 1px;
+  height: 10px;
+  background: currentColor;
+}
+.fp-ci::before {
+  left: 0;
+}
+.fp-ci::after {
+  right: 0;
+}
+.fp-dot {
+  position: absolute;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 2px var(--night-2);
+}
+.fp-value {
+  display: grid;
+  justify-items: end;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.fp-value small {
+  color: var(--night-soft);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.fp-axis {
+  height: 32px;
+  color: var(--night-soft);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.fp-axis span span {
+  position: absolute;
+  top: 10px;
+  transform: translateX(-50%);
+}
+.rec-cite {
+  max-width: 100ch;
+  margin-top: 28px;
+  color: var(--night-soft);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------------------------ limits: what it never does */
+
+.lim {
+  padding-block: clamp(96px, 14vh, 160px) clamp(32px, 6vh, 64px);
+}
+.lim-head h2 {
+  font-size: clamp(36px, 3.8vw, 62px);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.lim-head h2 span {
+  color: var(--ink-faint);
+}
+.lim-table {
+  margin-top: clamp(40px, 7vh, 72px);
+}
+.lim-row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.5fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 48px);
+  padding-block: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.lim-row p {
+  font-size: clamp(17px, 1.5vw, 22px);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+}
+.lim-cols {
+  padding-block: 0 12px;
+  border-bottom-color: var(--ink);
+  color: var(--ink-faint);
+}
+.lim-topic {
+  padding-top: 4px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+/* The refusal stays fully legible; one pen line through it says "never". */
+.lim-strike {
+  background: linear-gradient(var(--ink), var(--ink)) 0 58% / 100% 1.5px no-repeat;
+}
+.lim-tag {
+  display: none;
+}
+.lim-never small {
+  display: block;
+  max-width: 44ch;
+  margin-top: 6px;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  letter-spacing: 0;
+}
+
 /* ------------------------------------------------------------------ terms: the lexicon */
 
 .lexicon {
@@ -1855,12 +2331,10 @@ body.menu-open .header-actions {
   justify-self: end;
 }
 .site-footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding-block: 28px calc(28px + env(safe-area-inset-bottom, 0px));
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+  gap: 40px clamp(24px, 4vw, 64px);
+  padding-block: 56px calc(28px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--night-line);
   color: var(--night-soft);
   font-size: 13.5px;
@@ -1868,6 +2342,54 @@ body.menu-open .header-actions {
 .site-footer .wordmark {
   color: var(--paper);
   font-size: 15px;
+}
+.footer-brand {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+.footer-brand p {
+  max-width: 32ch;
+  line-height: 1.5;
+}
+.footer-col {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 10px;
+}
+.footer-col .label {
+  margin-bottom: 4px;
+  color: var(--paper);
+}
+.footer-col a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--night-soft);
+  transition: color 200ms;
+}
+.footer-col a:hover,
+.footer-col a:focus-visible {
+  color: var(--paper);
+}
+.footer-col a svg {
+  width: 14px;
+  height: 14px;
+}
+.footer-col p {
+  max-width: 30ch;
+  line-height: 1.5;
+}
+.footer-base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  grid-column: 1 / -1;
+  padding-top: 22px;
+  border-top: 1px solid var(--night-line);
+  font-size: 12.5px;
 }
 
 /* ------------------------------------------------------------------ search */
@@ -2321,5 +2843,147 @@ body.menu-open .header-actions {
   .mode-switch::before,
   .rack-key button::before {
     transition: none;
+  }
+}
+
+/* ------------------------------------------------------------------ fig 4, limits and footer at smaller widths */
+
+@media (max-width: 1180px) {
+  .rec-charts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 899px) {
+  .rec {
+    --fp-cols: minmax(0, 1fr) auto;
+    --bar-cols: minmax(0, 1fr) auto;
+  }
+  .rec-head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .rec-intro {
+    font-size: 15px;
+  }
+  /* The log turns upright: one rule down the left, the moments stacked along it. */
+  .rec-log-rule {
+    display: none;
+  }
+  .rec-log {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    border-left: 1px solid rgb(255 255 255 / 0.5);
+  }
+  .rec-log li {
+    grid-template-columns: 76px minmax(0, 1fr);
+    grid-template-areas: "time title" "time ref";
+    gap: 2px 12px;
+    padding: 0 0 18px 20px;
+  }
+  .rec-log li::before {
+    top: 3px;
+    left: -5px;
+  }
+  .rec-time {
+    grid-area: time;
+    padding-top: 3px;
+  }
+  .rec-log strong {
+    grid-area: title;
+  }
+  .rec-log code {
+    grid-area: ref;
+  }
+  .rec-plate {
+    margin-inline: calc(-1 * max(var(--gutter), env(safe-area-inset-left, 0px)));
+    padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px));
+    border-inline: 0;
+  }
+  /* Bars and intervals take the full width under their names; the rules are drawn inside each track. */
+  .rec-bars-guides,
+  .fp-guides {
+    display: none;
+  }
+  .rec-bar,
+  .fp-row {
+    grid-template-areas: "name value" "track track";
+    gap: 8px 16px;
+  }
+  .rec-bar-name,
+  .fp-name {
+    grid-area: name;
+  }
+  .rec-bar-value,
+  .fp-value {
+    grid-area: value;
+  }
+  .rec-bar-track,
+  .fp-track {
+    grid-area: track;
+  }
+  .rec-bar-track {
+    background: repeating-linear-gradient(to bottom, var(--paper) 0 3px, transparent 3px 6px) 85.17% 0 / 1px 100% no-repeat;
+  }
+  .rec-bars {
+    margin-top: 22px;
+  }
+  .rec-bars-note {
+    display: block;
+    margin-top: 14px;
+    color: var(--night-soft);
+    font-family: var(--font-geist-mono), monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+  }
+  .fp-row {
+    padding-block: 12px;
+  }
+  .fp-value {
+    grid-template-columns: auto auto;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .fp-value small {
+    order: -1;
+  }
+  .fp-track {
+    background:
+      linear-gradient(var(--night-soft), var(--night-soft)) var(--zero) 0 / 1px 100% no-repeat,
+      repeating-linear-gradient(to bottom, rgb(255 255 255 / 0.5) 0 3px, transparent 3px 6px) var(--floor) 0 / 1px 100% no-repeat;
+  }
+  .fp-axis {
+    grid-template-columns: 0 minmax(0, 1fr) 0;
+    gap: 0;
+  }
+  .lim-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+    padding-block: 18px;
+  }
+  .lim-cols {
+    display: none;
+  }
+  .lim-row p {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    font-size: 17px;
+  }
+  .lim-tag {
+    display: block;
+    padding-top: 5px;
+    color: var(--ink-faint);
+  }
+  .lim-never small {
+    grid-column: 2;
+  }
+  .site-footer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 24px;
+    padding-top: 40px;
+  }
+  .footer-brand,
+  .footer-data {
+    grid-column: 1 / -1;
   }
 }
